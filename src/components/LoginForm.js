@@ -28,7 +28,7 @@ class LoginForm extends Component {
     try {
       // POST 요청 보내기
       const response = await axios.post(
-        'http://purpleacademy.net:2305/login',
+        'https://purpleacademy.net:2305/login',
         data
       );
 
