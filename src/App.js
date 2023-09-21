@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // BrowserRouter를 추가해주세요.
 import LoginForm from './components/LoginForm';
-import UserProfile from './components/UserProfile';
-import PrivateRoute from './routes/PrivateRoute';
+// import UserProfile from './components/UserProfile';
+// import PrivateRoute from './routes/PrivateRoute';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,18 +17,14 @@ function App() {
   };
 
   return (
-    <div>
-      {/* {isLoggedIn ? (
-        // 사용자가 로그인한 경우, 대시보드 또는 다른 컨텐츠 표시
-        <Dashboard onLogout={handleLogout} />
-      ) : (
-        // 사용자가 로그인하지 않은 경우, 로그인 폼 표시
-        <LoginForm onLogin={handleLogin} />
-      )} */
-      <LoginForm onLogin={handleLogin} />
-      }
-
-    </div>
+    <Router> 
+      <Routes>
+        <Route
+          path={`${process.env.PUBLIC_URL}/`} // 이 부분에서 path를 설정합니다.
+          element={<LoginForm />} // 해당 path에 매칭될 컴포넌트를 지정합니다.
+        />
+      </Routes>
+    </Router> 
   );
 }
 

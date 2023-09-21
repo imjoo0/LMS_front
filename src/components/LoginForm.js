@@ -20,7 +20,7 @@ function LoginForm() {
     
     // Flask 서버로 로그인 요청 보내기
     try {
-      const response = await fetch('http://172.31.37.184:2305/login', {
+      const response = await fetch('http://purpleacademy.net:2305/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
