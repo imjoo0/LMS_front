@@ -9,7 +9,7 @@ const rootElement = document.getElementById('root');
 const root = createRoot(rootElement);
 
 root.render(
-  <Router basename={process.env.PUBLIC_URL}>
+  <Router>
     <App />
   </Router>
 ); //dd

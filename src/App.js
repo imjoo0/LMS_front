@@ -6,8 +6,8 @@ import "./App.css";
 function App() {
   return (
     <Routes>
-      <Route path={`/LMS_front/`} element={<LoginForm />} />
-      <Route path={`/LMS_front/about`} exact={true} element={<LoginForm />} />
+      <Route path={``} element={<LoginForm />} />
+      <Route path={`about`} exact={true} element={<LoginForm />} />
     </Routes>
   );
 }
