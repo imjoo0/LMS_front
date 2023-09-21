@@ -6,8 +6,8 @@ import "./App.css";
 function App() {
   return (
     <Routes>
-      <Route path="" element={<LoginForm />} />
-      <Route path="about" exact={true} element={<LoginForm />} />
+      <Route path={`${process.env.PUBLIC_URL}/`} element={<LoginForm />} />
+      <Route path={`${process.env.PUBLIC_URL}/about`} exact={true} element={<LoginForm />} />
     </Routes>
   );
 }
