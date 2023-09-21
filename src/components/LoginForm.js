@@ -1,78 +1,91 @@
-// LoginForm.js
-import React, { useState } from 'react';
+import React, { Component } from 'react';
+import axios from 'axios';
 
-function LoginForm() {
-  const [formData, setFormData] = useState({
+class LoginForm extends Component {
+  state = {
     username: '',
     password: '',
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    isLoading: false,
+    user: {},
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    // Flask 서버로 로그인 요청 보내기
-    try {
-      const response = await fetch('http://purpleacademy.net:2305/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
+  handleChange = (e) => {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
-      if (response.ok) {
-        // 로그인 성공
-        // TODO: 다음 작업 수행 (예: 사용자를 다른 페이지로 리디렉션)
+  handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { username, password } = this.state;
+
+    // 서버로 보낼 데이터
+    const data = {
+      username,
+      password,
+    };
+
+    try {
+      // POST 요청 보내기
+      const response = await axios.post(
+        'http://purpleacademy.net:2305/login',
+        data
+      );
+
+      if (response.status === 200) {
+        // 서버로부터 응답을 받은 경우
+        const user = response.data.data.user;
+
+        // 로그인 성공 처리 및 다음 작업 수행
         console.log('로그인 성공');
+        console.log('사용자 정보:', user);
+
+        // 사용자 정보를 상태에 저장하거나 다른 작업을 수행할 수 있습니다.
+        this.setState({ user });
       } else {
-        // 로그인 실패
-        // TODO: 실패 처리 (예: 오류 메시지 표시)
+        // 서버로부터 오류 응답을 받은 경우
         console.error('로그인 실패');
       }
     } catch (error) {
-      // 네트워크 오류 처리
-      console.error('네트워크 오류:', error);
+      // 네트워크 오류 등 예외 처리
+      console.error('로그인 중 오류 발생:', error);
     }
   };
 
-  return (
-    <div>
-      <h2>Login Page</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  );
+  render() {
+    const { username, password } = this.state;
+
+    return (
+      <div>
+        <h2>Login Page</h2>
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={username}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={this.handleChange}
+              required
+            />
+          </div>
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    );
+  }
 }
 
 export default LoginForm;
