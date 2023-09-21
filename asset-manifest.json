@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "https://imjoo0.github.io/LMS_front/static/css/main.abd64e84.css",
-    "main.js": "https://imjoo0.github.io/LMS_front/static/js/main.62cda69c.js",
-    "index.html": "https://imjoo0.github.io/LMS_front/index.html",
-    "main.abd64e84.css.map": "https://imjoo0.github.io/LMS_front/static/css/main.abd64e84.css.map",
-    "main.62cda69c.js.map": "https://imjoo0.github.io/LMS_front/static/js/main.62cda69c.js.map"
+    "main.css": "/LMS_front/static/css/main.abd64e84.css",
+    "main.js": "/LMS_front/static/js/main.e638d798.js",
+    "index.html": "/LMS_front/index.html",
+    "main.abd64e84.css.map": "/LMS_front/static/css/main.abd64e84.css.map",
+    "main.e638d798.js.map": "/LMS_front/static/js/main.e638d798.js.map"
   },
   "entrypoints": [
     "static/css/main.abd64e84.css",
-    "static/js/main.62cda69c.js"
+    "static/js/main.e638d798.js"
   ]
 }
