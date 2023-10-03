@@ -1,12 +1,140 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import Home from './Home'; // Home 컴포넌트 import
+import Home from './Home';
+import styled from '@emotion/styled';
+import logoImage from '../styles/logo.png';
+
+const Wrapper = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #c3c3c3;
+`;
+
+const LoginBox = styled.div`
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: white;
+`;
+
+const LoginBoxRight = styled.div`
+  margin-left: 6.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    margin-left: 2rem;
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    margin-left: 4rem;
+  }
+`;
+
+const LoginBoxLeft = styled.div`
+  width: 64vw;
+  height: 100vh;
+  background: #791285;
+  position: relative;
+
+  @media (max-width: 768px) {
+    display: none; // 모바일에서는 왼쪽 부분을 숨깁니다.
+  }
+`;
+
+const LogoImage = styled.div`
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20.5rem;
+  height: 9.1875rem;
+  flex-shrink: 0;
+  background-image: url(${logoImage});
+  background-repeat: no-repeat;
+  background-size: contain;  // 이미지가 div에 맞게 조절됩니다.
+
+  @media (max-width: 768px) {
+    width: 15rem;
+    height: 6.5rem;
+  }
+`;
+
+
+const LoginTitle = styled.div`
+  color: #333;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  margin-bottom: 4rem;
+  font-size: 2.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 3rem;
+  display: flex;
+  justify-content: center;
+
+  @media (max-width: 768px) {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+`;
+
+const InputTag = styled.div``;
+
+const LoginInput = styled.input`
+  width: 20.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+  border-radius: 3.375rem;
+  border: 0;
+  background: #f7f8fa;
+  padding: 0.75rem 0 0.75rem 1.5rem;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.25rem;
+  margin-bottom: 0.75rem;
+
+  @media (max-width: 768px) {
+    width: 18rem;
+  }
+`;
+
+const LoginButton = styled.button`
+  margin-top: 2.75rem;
+  width: 20.5rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+  border-radius: 3.375rem;
+  background: #791285;
+  border: 0;
+  color: #fff;
+  text-align: center;
+  font-family: Spoqa Han Sans Neo;
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 1.5rem;
+
+  @media (max-width: 768px) {
+    width: 18rem;
+  }
+`;
+
 
 function LoginForm() {
   const [user_id, setUser_id] = useState('');
   const [user_pw, setUser_pw] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false); // 로그인 성공 여부 상태 추가
+  const [loginSuccess, setLoginSuccess] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,73 +147,74 @@ function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // 서버로 보낼 데이터
     const data = {
       user_id,
       user_pw,
     };
 
     try {
-      // POST 요청 보내기
-      const response = await axios.post(
-        'http://purpleacademy.net:2305/login',
-        data
-      );
+      const response = await axios.post('http://127.0.0.1:2305/login', data,{
+        headers:{
+          'X-CSRFToken': Cookies.get('csrf_token')
+        }
+      });
 
       if (response.status === 200) {
-        // 서버로부터 응답을 받은 경우
         const user = response.data.result;
         const token = response.data.token;
 
-        Cookies.set('token', token, { expires: 7 }); // 7일 동안 유효한 쿠키 설정
-        Cookies.set('user', JSON.stringify(user), { expires: 7 }); // 사용자 정보 저장
+        Cookies.set('token', token, { expires: 7 });
+        Cookies.set('user', JSON.stringify(user), { expires: 7 });
 
-        setLoginSuccess(true); // 로그인 성공 상태 업데이트
-
+        setLoginSuccess(true);
       } else {
-        // 서버로부터 오류 응답을 받은 경우
         console.error('로그인 실패');
       }
     } catch (error) {
-      // 네트워크 오류 등 예외 처리
       console.error('로그인 중 오류 발생:', error);
     }
   };
 
-  // 로그인 성공 시 Home 컴포넌트를 렌더링, 아니면 로그인 폼 렌더링
   return (
-    <div>
-      {loginSuccess ? (
-        <Home />
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <div>
-            <h2>Login Page</h2>
-            <label htmlFor="user_id">ID:</label>
-            <input
-              type="text"
-              id="user_id"
-              name="user_id"
-              value={user_id}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="user_pw">PASSWORD:</label>
-            <input
-              type="password"
-              id="user_pw"
-              name="user_pw"
-              value={user_pw}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit">Login</button>
-        </form>
-      )}
-    </div>
+    <Wrapper>
+      <LoginBox>
+        <LoginBoxLeft>
+          <LogoImage />
+        </LoginBoxLeft>
+        <LoginBoxRight>
+          {loginSuccess ? (
+            <Home />
+          ) : (
+            <>
+              <LoginTitle>Sign in</LoginTitle>
+              <form onSubmit={handleSubmit}>
+                <InputTag>
+                  <LoginInput
+                    type="text"
+                    id="user_id"
+                    name="user_id"
+                    value={user_id}
+                    onChange={handleChange}
+                    placeholder="아이디를 입력해주세요."
+                  />
+                </InputTag>
+                <InputTag>
+                  <LoginInput
+                    type="password"
+                    id="user_pw"
+                    name="user_pw"
+                    value={user_pw}
+                    onChange={handleChange}
+                    placeholder="비밀번호를 입력해주세요."
+                  />
+                </InputTag>
+                <LoginButton type="submit">Log in</LoginButton>
+              </form>
+            </>
+          )}
+        </LoginBoxRight>
+      </LoginBox>
+    </Wrapper>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useStudents } from '../StudentContext';
 
 function TeacherHome({ userId }) {
   console.log(userId)
@@ -16,7 +17,8 @@ function TeacherHome({ userId }) {
 
   useEffect(() => {
     // 서버에 요청을 보내 학생 목록을 가져옵니다.
-    axios.get(`http://purpleacademy.net:2305/teacher/get_students_data/${userId}`)
+    axios.get(`http://127.0.0.1:2305/teacher/get_students_data/${userId}`)
+    // axios.get(`http://purpleacademy.net:2305/teacher/get_students_data/${userId}`)
       .then((response) => {
         const students = response.data.all_students;
         
@@ -36,7 +38,8 @@ function TeacherHome({ userId }) {
 
   useEffect(() => {
     // 서버에 요청을 보내 학생 목록을 가져옵니다.
-    axios.get(`http://purpleacademy.net:2305/teacher/get_unlearned_data/${userId}`)
+    axios.get(`http://127.0.0.1:2305/teacher/get_unlearned_data/${userId}`)
+    // axios.get(`http://purpleacademy.net:2305/teacher/get_unlearned_data/${userId}`)
       .then((response) => {
         const unlearnedConsultings = response.data.unlearned_consulting
         const groupedData = {};
@@ -79,7 +82,8 @@ function TeacherHome({ userId }) {
 
   useEffect(() => {
     // 서버에 요청을 보내 학생 목록을 가져옵니다.
-    axios.get(`http://purpleacademy.net:2305/teacher/get_task_data/${userId}`)
+    axios.get(`http://127.0.0.1:2305/teacher/get_task_data/${userId}`)
+    // axios.get(`http://purpleacademy.net:2305/teacher/get_task_data/${userId}`)
       .then((response) => {
         setBanList(response.data.ban_data)
         const ban_task = response.data.ban_task;

@@ -1,5 +1,6 @@
 import React from 'react';
 import Cookies from 'js-cookie';
+import { StudentProvider } from '../StudentContext';
 import TeacherHome from './TeacherHome';
 import ManagerHome from './ManagerHome';
 
@@ -15,7 +16,9 @@ function Home() {
       {user.category === 2 && (
         <div>
           {/* user.category가 2인 경우 TeacherHome 표시 */}
-          <TeacherHome userId={user.id} />
+          <StudentProvider>
+            <TeacherHome userId={user.id} />
+          </StudentProvider>
         </div>
       )}
       {/*  "만약 user.category가 2라면 아래의 내용을 실행하고 그렇지 않다면 실행하지 말라"는 의미 */}
