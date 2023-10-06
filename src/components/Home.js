@@ -5,9 +5,9 @@ import TeacherHome from './TeacherHome';
 import ManagerHome from './ManagerHome';
 
 function Home() {
-    const user = JSON.parse(Cookies.get('user'));
+  const user = JSON.parse(Cookies.get('user'));
   console.log(user)
-
+  
   return (
     <div>
       <h2>UserInfo</h2>
