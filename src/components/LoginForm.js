@@ -146,6 +146,7 @@ function LoginForm() {
   };
 
   const handleSubmit = async (e) => {
+    console.log("handleSubmit called");
     e.preventDefault();
     const data = {
       user_id,
@@ -153,8 +154,10 @@ function LoginForm() {
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:2305/login', data,{
-        headers:{
+      console.log(Cookies.get('csrf_token'))
+      // const response = await axios.post('http://127.0.0.1:2305/login', data, {
+      const response = await axios.post('http://purpleacademy.net:2305/login', data, {
+      headers:{
           'X-CSRFToken': Cookies.get('csrf_token')
         }
       });

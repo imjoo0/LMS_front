@@ -11,7 +11,8 @@ function App() {
   useEffect(() => {
     async function fetchCsrfToken() {
         try {
-            const response = await axios.get('http://127.0.0.1:2305/get_csrf_token'); // axios를 사용하여 요청합니다.
+            // const response = await axios.get('http://127.0.0.1:2305/get_csrf_token'); // axios를 사용하여 요청합니다.
+            const response = await axios.get('http://purpleacademy.net:2305/get_csrf_token'); // axios를 사용하여 요청합니다.
             const csrfToken = response.data.csrf_token;
             Cookies.set('csrf_token', csrfToken, { expires: 7 });
         } catch (error) {
